@@ -1,24 +1,31 @@
 package Lista4;
 
-public class ScreenPoint extends Point2 {
-
-    public ScreenPoint(int x, int y) {
-      super(x, y);
-      validateCoordinates();
-    }
-  
-    // Valida as coordenadas para a tela (0-300)
-    private void validateCoordinates() {
-      if (x < 0 || x > 300 || y < 0 || y > 300) {
-        throw new IllegalArgumentException("Coordenadas de tela inválidas: (" + x + ", " + y + ")");
-      }
-    }
-  
-    // Move o ponto na tela, garantindo a invariante
-    @Override
-    public void moveBy(int dx, int dy) {
-      super.moveBy(dx, dy);
-      validateCoordinates();
-    }
+public class ScreenPoint extends Point {
+  public ScreenPoint(int x, int y) {
+    super(x, y);
+    enforceInvariant();
   }
-  
+
+  @Override
+  public void setX(int x) {
+    super.setX(x);
+    enforceInvariant();
+  }
+
+  @Override
+  public void setY(int y) {
+    super.setY(y);
+    enforceInvariant();
+  }
+
+  @Override
+  public void moveBy(int dx, int dy) {
+    super.moveBy(dx, dy);
+    enforceInvariant();
+  }
+
+  private void enforceInvariant() {
+    x = Math.max(0, Math.min(x, 300));
+    y = Math.max(0, Math.min(y, 300));
+  }
+}
